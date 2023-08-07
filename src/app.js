@@ -11,7 +11,7 @@ const router = require("./routes");
 
 app.use(cookieParser());
 app.use(express.json());
-// app.use("/", router);
+app.use("/", router);
 
 // db sync
 (async () => {
