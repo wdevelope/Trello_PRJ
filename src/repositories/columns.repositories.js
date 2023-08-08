@@ -3,34 +3,43 @@ const Board = require("../dataBase/models/board");
 const { Op } = require("sequelize");
 
 class ColumnsRepository {
-  ////보더 파인드 생기면 그걸로 대체
   findOneBoard = async (boardId) => {
-    await Board.findOne({ where: { id: boardId } });
+    const board = await Board.findOne({ where: { id: boardId } });
+    return board;
+  };
+
+  findAllColumn = async (boardId) => {
+    const column = await Column.findAll({ where: { BoardId: boardId } });
+    return column;
   };
 
   findOneColumn = async (columnId) => {
-    await Column.findOne({ where: { id: columnId } });
+    const column = await Column.findOne({ where: { id: columnId } });
+    return column;
   };
 
-  createColumn = async (title, position) => {
+  createColumn = async (title, position, boardId) => {
     const column = await Column.create({
-      title: title,
-      position: position,
+      title,
+      position,
+      BoardId: boardId,
     });
+    console.log(column.dataValues);
     return column;
   };
 
   updateColumn = async (columnId, title, position, boardId) => {
     const column = await Column.update(
       { title, position },
-      { where: { [Op.and]: [{ id: columnId }, { boardId }] } },
+      { where: { [Op.and]: [{ id: columnId }, { BoardId: boardId }] } },
     );
     return column;
   };
 
   deleteColumn = async (columnId, boardId) => {
+    console.log(boardId);
     const column = await Column.destroy({
-      where: { [Op.and]: [{ id: columnId }, { boardId }] },
+      where: { [Op.and]: [{ id: columnId }, { BoardId: boardId }] },
     });
     return column;
   };

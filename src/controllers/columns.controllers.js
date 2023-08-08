@@ -1,6 +1,13 @@
 const ColumnsService = require("../services/columns.service");
 class ColumnController {
   columnsService = new ColumnsService();
+  findAllColumn = async (req, res, next) => {
+    const { boardId } = req.params;
+
+    const column = await this.columnsService.findAllColumn(boardId);
+    return res.json(column);
+  };
+
   //컬럼 생성
   createColumn = async (req, res, next) => {
     const { title, position } = req.body;
@@ -16,7 +23,7 @@ class ColumnController {
         position,
         boardId,
       );
-      res.status(200).json(column);
+      return res.status(200).json(column);
     } catch (error) {
       if (error.message === "Error") {
         res.status(400).json({ errorMessage: "컬럼 생성에 실패하였습니다." });
@@ -65,7 +72,7 @@ class ColumnController {
       res.status(200).json(column);
     } catch (error) {
       if (error.message === "Error") {
-        res.status(400).json({ errorMessage: "컬럼 생성에 실패하였습니다." });
+        res.status(400).json({ errorMessage: "컬럼 제거에 실패하였습니다." });
       } else if (error.message === "UndefinedeBoard") {
         res.status(412).json({ errorMessage: "Board이 존재하지 않습니다." });
       } else if (error.message === "UndefinedeColumn") {

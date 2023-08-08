@@ -8,7 +8,7 @@ const boardsRouter = require("./boards.routes");
 router.use("/board", boardsRouter);
 
 const columnsRouter = require("./columns.routes");
-router.use("/board/:boardId/column", columnsRouter);
+router.use("/board", columnsRouter);
 
 const cardsRouter = require("./cards.routes");
 router.use("/card", cardsRouter);

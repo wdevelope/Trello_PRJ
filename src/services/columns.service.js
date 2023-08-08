@@ -3,15 +3,21 @@ const ColumnsRepository = require("../repositories/columns.repositories");
 class ColumnsService {
   columnsRepository = new ColumnsRepository();
 
+  findAllColumn = async (boardId) => {
+    const column = await this.columnsRepository.findAllColumn(boardId);
+    return column;
+  };
+
   createColumn = async (title, position, boardId) => {
     const board = await this.columnsRepository.findOneBoard(boardId);
     if (!board) {
       throw new Error("UndefinedeBoard");
     }
     try {
-      await this.columnsRepository.createColumn(title, position);
+      await this.columnsRepository.createColumn(title, position, boardId);
       return `${title} 컬럼을 생성하였습니다.`;
     } catch (error) {
+      console.log(error);
       throw new Error("Error");
     }
   };
@@ -48,9 +54,10 @@ class ColumnsService {
       throw new Error("UndefinedeColumn");
     }
     try {
-      const column = await this.columnsRepository.deleteColumn(columnId);
+      await this.columnsRepository.deleteColumn(columnId, boardId);
       return `boardId: ${boardId} 의  columnId: ${columnId} 을 삭제하였습니다.`;
     } catch (error) {
+      console.log(error);
       throw new Error("Error");
     }
   };
