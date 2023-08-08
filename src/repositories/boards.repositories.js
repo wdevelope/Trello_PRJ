@@ -13,13 +13,13 @@ class BoardsRepository {
       title,
       description,
       color,
-      UserId : userId,
+      UserId: userId,
     });
   }
 
   //보드 상세 조회
-  async getBoardDetail(boardId){
-    return await Board.findOne({ where: {id : boardId}});
+  async getBoardDetail(boardId) {
+    return await Board.findOne({ where: { id: boardId } });
   }
 
   //보드 조회
