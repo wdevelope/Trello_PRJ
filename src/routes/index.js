@@ -13,7 +13,7 @@ router.use("/user", usersRouter);
 // const cardsRouter = require("./cards.routes");
 // router.use("/", cardsRouter);
 
-// const commentsRouter = require("./comments.routes");
-// router.use("/", commentsRouter);
+const commentsRouter = require("./comments.routes");
+router.use("/", commentsRouter);
 
 module.exports = router;
