@@ -1,8 +1,8 @@
 const User = require("../database/models/user");
 const jwt = require("jsonwebtoken");
 
-module.exports = {
-  registerUser: async (nickname, email, password) => {
+class UserRepository {
+  async registerUser(nickname, email, password) {
     const existingUser = await User.findOne({ where: { email } });
 
     if (existingUser) {
@@ -14,20 +14,27 @@ module.exports = {
       email,
       password,
     });
-  },
+  }
 
-  findUserByEmail: async (email) => {
+  async findUserByEmail(email) {
     return await User.findOne({ where: { email } });
-  },
+  }
 
-  generateToken: (user, res) => {
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIREIN,
-    });
-    res.cookie("Authorization", `Bearer ${token}`);
-  },
-
-  logoutUser: async (req, res) => {
+  async logoutUser(req, res) {
     res.cookie("Authorization", { expires: Date.now() });
-  },
-};
+  }
+
+  async getUserById(id) {
+    return await User.findOne({ where: { id: id } });
+  }
+
+  async updateUser(userId, data) {
+    return await User.update(data, { where: { id: userId } });
+  }
+
+  async deleteUser(id) {
+    return await User.destroy({ where: { id: id } });
+  }
+}
+
+module.exports = UserRepository;
