@@ -16,6 +16,10 @@ const card = sequelize.define("Cards", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  position: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   color: {
     type: DataTypes.STRING,
   },

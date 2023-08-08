@@ -1,4 +1,12 @@
-const { board, card, column, comment, user, boardMember } = require("./models");
+const {
+  board,
+  card,
+  column,
+  comment,
+  user,
+  boardMember,
+  cardMember,
+} = require("./models");
 
 // user 관계
 user.hasMany(board);
@@ -9,6 +17,9 @@ comment.belongsTo(user);
 
 user.hasMany(boardMember);
 boardMember.belongsTo(user);
+
+user.hasMany(cardMember);
+cardMember.belongsTo(user);
 
 // board 관계
 board.hasMany(column);
@@ -24,3 +35,6 @@ card.belongsTo(column);
 // card 관계
 card.hasMany(comment);
 comment.belongsTo(card);
+
+card.hasMany(cardMember);
+cardMember.belongsTo(card);
