@@ -9,12 +9,12 @@ const user = sequelize.define("Users", {
     autoIncrement: true,
   },
   nickname: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: false,
     unique: true,
   },
   email: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(50),
     allowNull: false,
     unique: true,
   },

@@ -6,7 +6,14 @@ class CardService {
   }
 
   // 카드 생성
-  async createCard({ title, description, color, position, deadline }) {
+  async createCard({
+    title,
+    description,
+    color,
+    position,
+    deadline,
+    columnId,
+  }) {
     if (deadline) {
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0); //  현재 날짜의 시작 시간
@@ -26,7 +33,9 @@ class CardService {
       color,
       position,
       deadline,
+      ColumnId: columnId,
     });
+    console.log("ColumnId Value:", columnId);
 
     if (!newCard) {
       throw new Error("카드 생성에 실패했습니다.");
@@ -110,7 +119,7 @@ class CardService {
     }
 
     const updateCard = await this.cardRepository.updateCard(cardId, {
-      columnId: targetColumId,
+      columnId: targetColumnId,
       position,
     });
 

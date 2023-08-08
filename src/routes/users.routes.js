@@ -8,7 +8,6 @@ const auth = require("../middleWares/auth.middleware");
 router.post("/signup", UsersController.register);
 // 로그인
 router.get("/login", UsersController.login);
-
 // 로그아웃
 router.post("/signout", UsersController.logoutUser);
 // 프로필 조회

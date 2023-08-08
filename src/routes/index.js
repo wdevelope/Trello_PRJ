@@ -11,7 +11,7 @@ const columnsRouter = require("./columns.routes");
 router.use("/board/:boardId/column", columnsRouter);
 
 const cardsRouter = require("./cards.routes");
-router.use("/card", cardsRouter);
+router.use("/board/:boradId/column/:columnId/card", cardsRouter);
 
 // const commentsRouter = require("./comments.routes");
 // router.use("/", commentsRouter);
