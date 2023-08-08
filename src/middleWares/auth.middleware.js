@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { Users } = require("../dataBase/models/user");
+const User = require("../dataBase/models/user");
+const { compareSync } = require("bcrypt");
 
 module.exports = async (req, res, next) => {
   try {
@@ -10,11 +11,10 @@ module.exports = async (req, res, next) => {
         .status(401)
         .json({ message: "토큰 타입이 일치하지 않습니다." });
     }
-
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decodedToken.userId;
 
-    const user = await Users.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { id: userId } });
     if (!user) {
       res.clearCookie("authorization");
       return res
@@ -26,7 +26,7 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error("토큰 검증 에러: ", error);
+    console.log(error);
     res.clearCookie("authorization");
     return res.status(401).json({
       message: "비정상적인 요청입니다.",

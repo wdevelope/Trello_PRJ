@@ -41,7 +41,6 @@ class UserService {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIREIN,
     });
-
     console.log("토큰 생성 완료");
 
     return token;
