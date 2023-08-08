@@ -58,6 +58,9 @@ class CardRepository {
       throw new Error("카드 삭제 중 오류가 발생했습니다.");
     }
   }
+  async PositionsInColumn(columnId, startPosition, increment) {}
+
+  async PositionsBetween(columnId, start, end, direction) {}
 }
 
 module.exports = CardRepository;
