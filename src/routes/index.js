@@ -13,7 +13,7 @@ router.use("/board", columnsRouter);
 const cardsRouter = require("./cards.routes");
 router.use("/card", cardsRouter);
 
-// const commentsRouter = require("./comments.routes");
-// router.use("/", commentsRouter);
+const commentsRouter = require("./comments.routes");
+router.use("/", commentsRouter);
 
 module.exports = router;
