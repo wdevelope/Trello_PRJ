@@ -24,7 +24,28 @@ class BoardsRepository {
 
   //보드 조회
   //보드 수정
+  async updateBoard(boardId, title, description, color) {
+    console.log("repo", boardId, title, description, color);
+    return await Board.update(
+      { title, description, color },
+      { where: { id: boardId } },
+    );
+  }
+
+  //삭제 권한 확인
+  compareBoard = async (boardId) => {
+    const compareBoardData = await Board.findOne({
+      attributes: ["userId"],
+      where: { id: boardId },
+    });
+    return compareBoardData;
+  };
+
   //보드 삭제
+  async deleteBoard(boardId) {
+    return await Board.destroy({ where: { id: boardId } });
+  }
+
   //보드 초대
 }
 
