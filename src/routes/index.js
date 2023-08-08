@@ -1,8 +1,8 @@
-// const express = require("express");
-// const router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-// const usersRouter = require("./users.routes");
-// router.use("/", usersRouter);
+const usersRouter = require("./users.routes");
+router.use("/user", usersRouter);
 
 // const boardsRouter = require("./boards.routes");
 // router.use("/", boardsRouter);
@@ -16,4 +16,4 @@
 // const commentsRouter = require("./comments.routes");
 // router.use("/", commentsRouter);
 
-// module.exports = router;
+module.exports = router;
