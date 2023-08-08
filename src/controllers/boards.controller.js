@@ -20,10 +20,9 @@ class BoardsController {
   //보드 상세 조회
   async getBoardDetail(req, res) {
     try {
-        console.log("1");
-      console.log("controller", req.parms.id);
-      console.log("2");
-      const board = await boardsService.getBoardDetail(req.parms.id);
+      const {boardId} = req.params;
+      console.log(boardId);
+      const board = await boardsService.getBoardDetail(boardId);
       res.json(board);
     } catch (err) {
       console.log(err);

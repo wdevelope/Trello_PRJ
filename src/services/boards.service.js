@@ -15,8 +15,9 @@ class BoardsService {
     return newBoard;
   }
   //보드 상세 조회
-  async getBoardDetail(boardid){
-    const board =  await boardsRepository.getBoardDetail(boardid);
+  async getBoardDetail(boardId){
+    console.log(boardId);
+    const board =  await boardsRepository.getBoardDetail(boardId);
     if(!board){
         throw new Error("보드를 찾을 수 없습니다.");
     }
