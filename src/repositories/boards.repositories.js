@@ -17,6 +17,11 @@ class BoardsRepository {
     });
   }
 
+  //보드 상세 조회
+  async getBoardDetail(boardid){
+    return await Board.findOne({ where: {id: boardid}});
+  }
+
   //보드 조회
   //보드 수정
   //보드 삭제

@@ -1,12 +1,10 @@
-const { emit } = require("nodemon");
 const BoardsService = require("../services/boards.service");
 const boardsService = new BoardsService();
 
 class BoardsController {
   //보드 생성
   async createBoard(req, res) {
-    const userId = res.locals;
-    const userId2 = req.parms;
+    const userId = res.locals.user;
     const { title, description, color } = req.body;
     console.log(userId);
 
@@ -19,9 +17,21 @@ class BoardsController {
     }
   }
 
-  //보드 조회
-
   //보드 상세 조회
+  async getBoardDetail(req, res) {
+    try {
+        console.log("1");
+      console.log("controller", req.parms.id);
+      console.log("2");
+      const board = await boardsService.getBoardDetail(req.parms.id);
+      res.json(board);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+
+  //보드 조회
 
   //보드 수정
 
