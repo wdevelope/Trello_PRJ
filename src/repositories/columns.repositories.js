@@ -1,16 +1,15 @@
 const Column = require("../dataBase/models/column");
 const Board = require("../dataBase/models/board");
 const { Op } = require("sequelize");
-const board = require("../dataBase/models/board");
 
 class ColumnsRepository {
   ////보더 파인드 생기면 그걸로 대체
   findOneBoard = async (boardId) => {
-    await board.findOne({ where: { id: boardId } });
+    await Board.findOne({ where: { id: boardId } });
   };
 
   findOneColumn = async (columnId) => {
-    await board.findOne({ where: { id: columnId } });
+    await Column.findOne({ where: { id: columnId } });
   };
 
   createColumn = async (title, position) => {
@@ -20,7 +19,6 @@ class ColumnsRepository {
     });
     return column;
   };
-  ///생성은 되는데 무한로딩?
 
   updateColumn = async (columnId, title, position, boardId) => {
     const column = await Column.update(
