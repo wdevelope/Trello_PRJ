@@ -4,9 +4,8 @@ const boardsService = new BoardsService();
 class BoardsController {
   //보드 생성
   async createBoard(req, res) {
-    const userId = res.locals.user;
     const { title, description, color } = req.body;
-    console.log(userId);
+    const userId = res.locals.user.id;
 
     try {
       await boardsService.createBoard(title, description, color, userId);
@@ -20,7 +19,7 @@ class BoardsController {
   //보드 상세 조회
   async getBoardDetail(req, res) {
     try {
-      const {boardId} = req.params;
+      const { boardId } = req.params;
       console.log(boardId);
       const board = await boardsService.getBoardDetail(boardId);
       res.json(board);
