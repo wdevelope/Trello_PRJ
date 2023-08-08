@@ -55,7 +55,7 @@ class CardController {
   //카드 이동
   async moveCard(req, res) {
     try {
-      await cardservice.moveCard(req.params.cardId, req.body);
+      await cardservice.moveCard(req.params.id, req.body);
       res.status(200).json({ message: "카드 이동에 성공했습니다." });
     } catch (error) {
       res.status(400).json({ message: error.message });

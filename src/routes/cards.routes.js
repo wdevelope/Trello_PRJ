@@ -14,7 +14,7 @@ router.get("/:id", CardsController.getCardById);
 router.put("/:id", CardsController.updateCard);
 // 카드 삭제
 router.delete("/:id", CardsController.deleteCard);
+// 카드 이동
+router.post("/:id", CardsController.moveCard);
 
 module.exports = router;
-
-//기능  회원가입, 로그인, 로그아웃, 유저조회, 유저정보수정, 유저삭제(탈퇴)
