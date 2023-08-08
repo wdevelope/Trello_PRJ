@@ -13,24 +13,25 @@ class CommentReopository {
     return getCommentsData;
   };
 
-  async createComment(comment) {
+  async createComment(id, comment) {
     const createCommentData = await Comment.create({
+      userId: id,
       comment,
     });
 
     return createCommentData;
   };
 
-  async updateComment(commentId, comment) {
+  async updateComment(commentId, id, comment) {
     const updateCommentData = await Comment.update(
       { comment },
-      { where: { id: commentId } }
+      { where: { id: commentId, userId: id } },
     );
     return updateCommentData;
   };
 
-  async deleteComment(commentId) {
-    const deleteCommentData = await Comment.destroy({ where: { id: commentId } });
+  async deleteComment(commentId, id) {
+    const deleteCommentData = await Comment.destroy({ where: { id: commentId, userId: id } });
 
     return deleteCommentData;
   };

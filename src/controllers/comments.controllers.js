@@ -14,9 +14,10 @@ class CommentController {
   };
 
   async createComment(req, res) {
+    const { id } = res.locals.user;
     const { comment } = req.body;
     try {
-      await commentService.createComment(comment);
+      await commentService.createComment(id, comment);
 
       res.status(201).json({ message: "댓글이 작성되었습니다." })
     } catch (err) {
@@ -26,10 +27,11 @@ class CommentController {
   };
 
   async updateComment(req, res) {
+    const { id } = res.locals.user;
     const { commentId } = req.params;
     const { comment } = req.body;
     try {
-      const updateCommentData = await commentService.updateComment(commentId, comment);
+      const updateCommentData = await commentService.updateComment(commentId, id, comment);
 
       res.status(200).json({ data: updateCommentData });
     } catch (err) {
@@ -39,9 +41,10 @@ class CommentController {
   };
 
   async deleteComment(req, res) {
+    const { id } = res.locals.user;
     const { commentId } = req.params;
     try {
-      const deleteCommentData = await commentService.deleteComment(commentId);
+      const deleteCommentData = await commentService.deleteComment(commentId, id);
 
       res.status(200).json({ data: deleteCommentData });
     } catch (err) {
