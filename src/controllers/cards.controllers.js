@@ -5,7 +5,8 @@ class CardController {
   // 카드 생성
   async createCard(req, res) {
     try {
-      await cardservice.createCard(req.body);
+      const { columnId } = req.params;
+      await cardservice.createCard({ ...req.body, columnId });
       res.status(200).json({ message: "카드 생성에 성공했습니다." });
     } catch (error) {
       res.status(400).json({ message: error.message });

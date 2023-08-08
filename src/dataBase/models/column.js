@@ -13,7 +13,7 @@ const column = sequelize.define("Columns", {
     allowNull: false,
   },
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(50),
     allowNull: false,
   },
 });

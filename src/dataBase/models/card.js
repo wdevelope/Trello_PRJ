@@ -9,11 +9,11 @@ const card = sequelize.define("Cards", {
     autoIncrement: true,
   },
   title: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(50),
     allowNull: false,
   },
   position: {
@@ -21,10 +21,13 @@ const card = sequelize.define("Cards", {
     allowNull: false,
   },
   color: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(7),
+    allowNull: true,
+    defaultValue: "#FFFFFF",
   },
   deadline: {
     type: DataTypes.DATE,
+    allowNull: false,
   },
 });
 

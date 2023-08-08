@@ -1,4 +1,5 @@
-const { card: Card } = require("../dataBase/models");
+const { Card } = require("../dataBase/models");
+const { Op } = require("sequelize");
 
 class CardRepository {
   // 카드 생성 레포지
@@ -58,9 +59,37 @@ class CardRepository {
       throw new Error("카드 삭제 중 오류가 발생했습니다.");
     }
   }
-  async PositionsInColumn(columnId, startPosition, increment) {}
+  async PositionsInColumn(columnId, startPosition, increment) {
+    const cards = await Card.findAll({
+      where: {
+        columnId: columnId,
+        position: {
+          [Op.gte]: startPosition,
+        },
+      },
+    });
 
-  async PositionsBetween(columnId, start, end, direction) {}
+    for (let card of cards) {
+      card.position += increment;
+      await card.save();
+    }
+  }
+
+  async PositionsBetween(columnId, start, end, direction) {
+    const cards = await Card.findAll({
+      where: {
+        columnId: columnId,
+        position: {
+          [Op.between]: [start, end],
+        },
+      },
+    });
+
+    for (let card of cards) {
+      card.position += direction;
+      await card.save();
+    }
+  }
 }
 
 module.exports = CardRepository;
