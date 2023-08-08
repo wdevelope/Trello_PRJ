@@ -26,7 +26,36 @@ class BoardsService {
 
   //보드 조회
   //보드 수정
+  async updateBoard(boardId, title, description, color) {
+    console.log("serv", boardId, title, description, color);
+    const updateBoard = await boardsRepository.updateBoard(
+      boardId,
+      title,
+      description,
+      color,
+    );
+    if (!updateBoard[0]) {
+      throw new Error("보드 업데이트 불가.");
+    }
+    return updateBoard;
+  }
   //보드 삭제
+  async deleteBoard(boardId){
+    // console.log("ser",boardId, userId);
+    // const compareBoardData = await this.boardsRepository.compareBoard(boardId);
+
+    // if(!compareBoardData){
+    //     throw new Error("보드 삭제 권한 없음");
+    // }
+    // if(compareBoardData.userId !== userId){
+    //     throw new Error("보드 삭제 권한 없음");
+    // }
+    await this.boardsRepository.deleteBoard(boardId);
+
+    if(!deleteBoard){
+        throw new Error("보드가 없습니다.")
+    }
+  }
   //보드 초대
 }
 
