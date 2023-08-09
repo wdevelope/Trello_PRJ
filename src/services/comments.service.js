@@ -47,7 +47,7 @@ class CommentService {
       comment: updatedCommentData.comment,
     };
   };
-
+  //댓글삭제
   async deleteComment(commentId, id) {
     const matchUser = await commentRepository.findCommentById(commentId);
 
