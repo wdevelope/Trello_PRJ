@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../mysql");
 
-const card = sequelize.define("Cards", {
+const card = sequelize.define("cards", {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,

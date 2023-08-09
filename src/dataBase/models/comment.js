@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../mysql");
 
-const comment = sequelize.define("Comments", {
+const comment = sequelize.define("comments", {
   id: {
     type: DataTypes.BIGINT,
     allowNull: false,

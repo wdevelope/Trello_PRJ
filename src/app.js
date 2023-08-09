@@ -16,9 +16,7 @@ app.use("/", router);
   try {
     await sequelize.sync();
     app.listen(process.env.PORT, () => {
-      console.log(
-        `${process.env.PORT} 서버가 켜졌습니다 :ok_손_모양::ok_손_모양:`,
-      );
+      console.log(`${process.env.PORT} 서버가 켜졌습니다 👌👌`);
     });
   } catch (error) {
     console.error("DB 연결 오류:", error);
