@@ -13,9 +13,10 @@ class CommentReopository {
     return getCommentsData;
   };
 
-  async createComment(id, comment) {
+  async createComment(id, cardId, comment) {
     const createCommentData = await Comment.create({
       userId: id,
+      cardId,
       comment,
     });
 
