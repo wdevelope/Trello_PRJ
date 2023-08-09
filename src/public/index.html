@@ -64,6 +64,7 @@
           <button
             class="btn btn-outline-light my-2 my-sm-0 mr-2"
             type="button"
+            id="signupBtn"
             data-toggle="modal"
             data-target="#registerModal"
           >
@@ -83,6 +84,7 @@
             type="button"
             data-toggle="modal"
             data-target="#createBoardModal"
+            id="boardButton"
           >
             보드 생성
           </button>
@@ -93,6 +95,7 @@
             type="button"
             data-toggle="modal"
             data-target="#profileModal"
+            id="profilBtn"
           >
             프로필
           </button>
@@ -103,6 +106,7 @@
             type="button"
             data-toggle="modal"
             data-target="#inviteModal"
+            id="inviteBtn"
           >
             초대
           </button>
@@ -418,7 +422,9 @@
               />
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary">추가</button>
+              <button type="button" class="btn btn-primary" onclick="addCard()">
+                추가
+              </button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">
                 닫기
               </button>
@@ -573,171 +579,6 @@
 
     <!-- ⭐⭐⭐⭐ 메인 세션 ⭐⭐⭐⭐-->
     <main class="vh-100 pt-5">
-      <div id="mainBoard" class="board w-100 p-3 mt-5 border">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h1>보드이름</h1>
-          <div class="d-flex align-items-center">
-            <!-- 참여중인 유저들 -->
-            <div class="participants d-flex align-items-center mr-5">
-              <p class="mb-1 mr-3">참여중인 유저 :</p>
-              <img src="./photo/user1.png" alt="User 1" class="profile-icon" />
-              <img src="./photo/user2.png" alt="User 2" class="profile-icon" />
-              <img src="./photo/user3.png" alt="User 3" class="profile-icon" />
-            </div>
-            <button
-              data-toggle="modal"
-              data-target="#inviteUserModal"
-              class="btn btn-primary mb-1 mr-3"
-            >
-              유저 초대
-            </button>
-            <button
-              data-toggle="modal"
-              data-target="#addColumnModal"
-              class="btn btn-primary mb-1"
-            >
-              컬럼 추가
-            </button>
-          </div>
-        </div>
-
-        <!-- 컬럼 추가 -->
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-            <div class="column h-100 p-2 bg-light rounded">
-              <h4>컬럼1</h4>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드1
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드2
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드3
-              </div>
-              <button
-                data-toggle="modal"
-                data-target="#addCardModal"
-                class="btn btn-secondary mt-3"
-              >
-                카드 추가
-              </button>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-            <div class="column h-100 p-2 bg-light rounded">
-              <h4>컬럼2</h4>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드1
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드2
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드3
-              </div>
-              <button
-                data-toggle="modal"
-                data-target="#addCardModal"
-                class="btn btn-secondary mt-3"
-              >
-                카드 추가
-              </button>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-            <div class="column h-100 p-2 bg-light rounded">
-              <h4>컬럼3</h4>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드1
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드2
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드3
-              </div>
-              <button
-                data-toggle="modal"
-                data-target="#addCardModal"
-                class="btn btn-secondary mt-3"
-              >
-                카드 추가
-              </button>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-            <div class="column h-100 p-2 bg-light rounded">
-              <h4>컬럼4</h4>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드1
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드2
-              </div>
-              <div
-                class="card mb-2 p-2 border rounded"
-                data-toggle="modal"
-                data-target="#cardDetailModal"
-              >
-                카드3
-              </div>
-              <button
-                data-toggle="modal"
-                data-target="#addCardModal"
-                class="btn btn-secondary mt-3"
-              >
-                카드 추가
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 두번째 보드 -->
       <div id="mainBoard" class="board w-100 p-3 mt-5 border">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h1>보드이름</h1>

@@ -21,6 +21,12 @@
   border: none;
   padding: 8px 10px 8px 10px;
 }
+/* 
+#profilBtn,
+#logoutBtn,
+#inviteBtn {
+  display: none;
+} */
 
 /* 유저 프로필 css*/
 .profile-icon {
