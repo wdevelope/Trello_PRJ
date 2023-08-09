@@ -257,12 +257,26 @@
               </button>
             </div>
             <div class="modal-body">
-              <input type="text" id="titleBoard" placeholder="제목" class="form-control mb-2" />
-              <textarea id="descriptionBoard" placeholder="내용" class="form-control mb-2"></textarea>
+              <input
+                type="text"
+                id="titleBoard"
+                placeholder="제목"
+                class="form-control mb-2"
+              />
+              <textarea
+                id="descriptionBoard"
+                placeholder="내용"
+                class="form-control mb-2"
+              ></textarea>
               <input type="color" id="colorBoard" class="form-control mb-2" />
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" id="createBoardbtn" onclick="createBoard()">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="createBoardbtn"
+                onclick="createBoard()"
+              >
                 생성
               </button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -753,6 +767,10 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="index.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/card.js"></script>
+    <script src="./js/board.js"></script>
+    <script src="./js/column.js"></script>
+    <script src="./js/comment.js"></script>
   </body>
 </html>
