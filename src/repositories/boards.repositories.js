@@ -1,32 +1,32 @@
 //const { Model } = require("sequelize");
-const Board = require("../database/models/board");
+const board = require("../database/models/board");
 
 class BoardsRepository {
   //보드 생성
   async createBoard(title, description, color, userId) {
-    const existingBoard = await Board.findOne({ where: { title } });
+    const existingBoard = await board.findOne({ where: { title } });
 
     if (existingBoard) {
       return null;
     }
-    return Board.create({
+    return board.create({
       title,
       description,
       color,
-      UserId: userId,
+      userId,
     });
   }
 
   //보드 상세 조회
   async getBoardDetail(boardId) {
-    return await Board.findOne({ where: { id: boardId } });
+    return await board.findOne({ where: { id: boardId } });
   }
 
   //보드 조회
   //보드 수정
   async updateBoard(boardId, title, description, color) {
     console.log("repo", boardId, title, description, color);
-    return await Board.update(
+    return await board.update(
       { title, description, color },
       { where: { id: boardId } },
     );
@@ -34,7 +34,7 @@ class BoardsRepository {
 
   //삭제 권한 확인
   compareBoard = async (boardId) => {
-    const compareBoardData = await Board.findOne({
+    const compareBoardData = await board.findOne({
       attributes: ["userId"],
       where: { id: boardId },
     });
@@ -43,7 +43,7 @@ class BoardsRepository {
 
   //보드 삭제
   async deleteBoard(boardId) {
-    return await Board.destroy({ where: { id: boardId } });
+    return await board.destroy({ where: { id: boardId } });
   }
 
   //보드 초대
