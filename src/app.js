@@ -11,6 +11,12 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/", router);
 
+app.use(express.static(__dirname + "/public"));
+
+router.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
 // db sync
 (async () => {
   try {
