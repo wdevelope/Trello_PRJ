@@ -10,7 +10,6 @@ class BoardsService {
       color,
       userId,
     );
-    //에러 캐치 뭐?
 
     return newBoard;
   }
@@ -21,12 +20,14 @@ class BoardsService {
     if (!board) {
       throw new Error("보드를 찾을 수 없습니다.");
     }
+
     return board;
   }
 
   //보드 조회
   async getBoard(){
     const getBoard = await boardsRepository.getBoard();
+
     return getBoard;
   }
 
@@ -42,6 +43,7 @@ class BoardsService {
     if (!updateBoard[0]) {
       throw new Error("보드 업데이트 불가.");
     }
+    
     return updateBoard;
   }
   //보드 삭제
