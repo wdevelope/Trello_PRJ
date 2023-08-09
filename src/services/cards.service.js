@@ -27,15 +27,15 @@ class CardService {
         throw new Error("마감 기한은 현재 날짜보다 미래여야 합니다.");
       }
     }
+
     const newCard = await this.cardRepository.createCard({
       title,
       description,
       color,
       position,
       deadline,
-      ColumnId: columnId,
+      columnId,
     });
-    console.log("ColumnId Value:", columnId);
 
     if (!newCard) {
       throw new Error("카드 생성에 실패했습니다.");
