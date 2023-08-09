@@ -9,7 +9,7 @@ class ColumnsRepository {
   };
 
   findAllColumn = async (boardId) => {
-    const column = await Column.findAll({ where: { BoardId: boardId } });
+    const column = await Column.findAll({ where: { boardId } });
     return column;
   };
 
@@ -22,7 +22,7 @@ class ColumnsRepository {
     const column = await Column.create({
       title,
       position,
-      BoardId: boardId,
+      boardId,
     });
     console.log(column.dataValues);
     return column;
@@ -31,7 +31,7 @@ class ColumnsRepository {
   updateColumn = async (columnId, title, position, boardId) => {
     const column = await Column.update(
       { title, position },
-      { where: { [Op.and]: [{ id: columnId }, { BoardId: boardId }] } },
+      { where: { [Op.and]: [{ id: columnId }, { boardId }] } },
     );
     return column;
   };
@@ -39,7 +39,7 @@ class ColumnsRepository {
   deleteColumn = async (columnId, boardId) => {
     console.log(boardId);
     const column = await Column.destroy({
-      where: { [Op.and]: [{ id: columnId }, { BoardId: boardId }] },
+      where: { [Op.and]: [{ id: columnId }, { boardId }] },
     });
     return column;
   };
