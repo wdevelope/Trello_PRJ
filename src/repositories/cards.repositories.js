@@ -1,11 +1,11 @@
-const { Card } = require("../dataBase/models");
+const { card } = require("../dataBase/models");
 const { Op } = require("sequelize");
 
 class CardRepository {
   // 카드 생성 레포지
   async createCard(data) {
     try {
-      return await Card.create(data);
+      return await card.create(data);
     } catch (error) {
       throw new Error("카드 생성 중 오류가 발생했습니다.");
     }
@@ -14,7 +14,7 @@ class CardRepository {
   // 카드 전체 조회 레포지
   async findAllCards() {
     try {
-      return await Card.findAll();
+      return await card.findAll();
     } catch (error) {
       throw new Error("카드 조회 중 오류가 발생했습니다.");
     }
@@ -23,7 +23,7 @@ class CardRepository {
   // 특정 카드 찾기 레포지
   async findCardById(cardId) {
     try {
-      return await Card.findByPk(cardId);
+      return await card.findByPk(cardId);
     } catch (error) {
       throw new Error("카드 조회 중 오류가 발생했습니다.");
     }
@@ -32,7 +32,7 @@ class CardRepository {
   // 카드 수정 레포지
   async updateCard(cardId, data) {
     try {
-      const result = await Card.update(data, {
+      const result = await card.update(data, {
         where: { id: cardId },
       });
       if (result[0] === 0) {
@@ -48,7 +48,7 @@ class CardRepository {
   //카드 삭제 레포지
   async deleteCard(cardId) {
     try {
-      const rowsDeleted = await Card.destroy({
+      const rowsDeleted = await card.destroy({
         where: { id: cardId },
       });
       if (rowsDeleted === 0) {
@@ -60,7 +60,7 @@ class CardRepository {
     }
   }
   async PositionsInColumn(columnId, startPosition, increment) {
-    const cards = await Card.findAll({
+    const cards = await card.findAll({
       where: {
         columnId: columnId,
         position: {
@@ -76,7 +76,7 @@ class CardRepository {
   }
 
   async PositionsBetween(columnId, start, end, direction) {
-    const cards = await Card.findAll({
+    const cards = await card.findAll({
       where: {
         columnId: columnId,
         position: {

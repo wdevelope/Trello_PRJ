@@ -9,9 +9,9 @@ router.use("/board", boardsRouter);
 
 const columnsRouter = require("./columns.routes");
 router.use("/board", columnsRouter);
-
+//카드 라우터
 const cardsRouter = require("./cards.routes");
-router.use("/board/:boradId/column/:columnId/card", cardsRouter);
+router.use("/board", cardsRouter);
 
 const commentsRouter = require("./comments.routes");
 router.use("/", commentsRouter);
