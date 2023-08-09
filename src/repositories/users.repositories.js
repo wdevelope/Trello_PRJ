@@ -21,7 +21,7 @@ class UserRepository {
   }
 
   async logoutUser(req, res) {
-    res.cookie("Authorization", { expires: Date.now() });
+    res.cookie("authorization", "", { maxAge: 0 });
   }
 
   async getUserById(id) {
