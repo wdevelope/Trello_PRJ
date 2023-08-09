@@ -7,9 +7,10 @@ class CommentController {
       const getCommentsData = await commentService.getComment();
 
       res.status(200).json({ data: getCommentsData });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
+    } catch (error) {
+      if (error.message === "NotFoundComments") {
+        res.status(404).json({ errorMessage: "댓글이 존재하지 않습니다."});
+      };
     };
   };
 
@@ -20,9 +21,12 @@ class CommentController {
       await commentService.createComment(id, comment);
 
       res.status(201).json({ message: "댓글이 작성되었습니다." })
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
+    } catch (error) {
+      if (error.message === "Error") {
+        res.status(400).json({ errorMessage: "댓글 생성에 실패하였습니다." });
+      } else if (error.message === "Empty") {
+        res.status(400).json({ errorMessage: "댓글을 작성해주세요." });
+      };
     };
   };
 
@@ -31,12 +35,17 @@ class CommentController {
     const { commentId } = req.params;
     const { comment } = req.body;
     try {
-      const updateCommentData = await commentService.updateComment(commentId, id, comment);
+      await commentService.updateComment(commentId, id, comment);
 
-      res.status(200).json({ data: updateCommentData });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
+      res.status(200).json({ message: "댓글이 수정되었습니다." });
+    } catch (error) {
+      if (error.message === "Error") {
+        res.status(400).json({ errorMessage: "댓글 수정에 실패하였습니다." });
+      } else if (error.message === "Empty") {
+        res.status(400).json({ errorMessage: "수정하실 댓글을 작성해주세요." });
+      } else if (error.message === "Unauthorized") {
+        res.status(401).json({ errorMessage: "댓글 수정권한이 없습니다." });
+      };
     };
   };
 
@@ -46,11 +55,12 @@ class CommentController {
     try {
       const deleteCommentData = await commentService.deleteComment(commentId, id);
 
-      res.status(200).json({ data: deleteCommentData });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: err.message });
-    }
+      res.status(200).json({ message: "댓글이 삭제되었습니다", data: deleteCommentData });
+    } catch (error) {
+      if (error.message === "Unauthorized") {
+        res.status(401).json({ errorMessage: "댓글 삭제권한이 없습니다." });
+      };
+    };
   };
 };
 

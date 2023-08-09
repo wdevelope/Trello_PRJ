@@ -6,45 +6,63 @@ class CommentService {
     const getCommentData = await commentRepository.getComments();
 
     if (getCommentData <= 0) {
-      throw new Error("댓글이 존재하지 않습니다.");
+      throw new Error("NotFoundComments");
     };
-
-    return getCommentData.map((comment) => {
-      return {
-        id: comment.id,
-        comment: comment.comment,
-      };
-    });
+    try {
+      return getCommentData.map((comment) => {
+        return {
+          id: comment.id,
+          comment: comment.comment,
+        };
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error");
+    };
   };
 
   async createComment(id, comment) {
 
     if (comment.length <= 0) {
-      throw new Error("댓글 내용을 입력해주세요.");
+      throw new Error("Empty");
     };
 
-    const createCommentData = await commentRepository.createComment(id, comment);
+    try {
+      const createCommentData = await commentRepository.createComment(id, comment);
 
-    return {
-      userId: createCommentData.userId,
-      comment: createCommentData.comment,
+      return {
+        userId: createCommentData.userId,
+        comment: createCommentData.comment,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error");
     };
   };
 
   async updateComment(commentId, id, comment) {
-    const matchUser = await commentRepository.findCommentById(commentId);
+    const matchCommentInfo = await commentRepository.findCommentById(commentId);
 
-    if (matchUser.userId !== id) {
-      throw new Error("댓글 수정 권한이 없습니다.");
+    if (comment.length <= 0) {
+      throw new Error("Empty");
     };
 
-    await commentRepository.updateComment(commentId, id, comment);
+    if (matchCommentInfo.userId !== id) {
+      throw new Error("Unauthorized");
+    };
 
-    const updatedCommentData = await commentRepository.findCommentById(commentId);
+    try {
+      await commentRepository.updateComment(commentId, id, comment);
 
-    return {
-      id: updatedCommentData.id,
-      comment: updatedCommentData.comment,
+      const updatedCommentData = await commentRepository.findCommentById(commentId);
+
+      return {
+        id: updatedCommentData.id,
+        comment: updatedCommentData.comment,
+      };
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error");
     };
   };
   //댓글삭제
@@ -52,16 +70,20 @@ class CommentService {
     const matchUser = await commentRepository.findCommentById(commentId);
 
     if (matchUser.userId !== id) {
-      throw new Error("댓글 삭제 권한이 없습니다.");
+      throw new Error("Unauthorized");
     };
+    try {
+      const deletedCommentData = await commentRepository.findCommentById(commentId);
 
-    const deletedCommentData = await commentRepository.findCommentById(commentId);
+      await commentRepository.deleteComment(commentId, id);
 
-    await commentRepository.deleteComment(commentId, id);
-
-    return {
-      id: deletedCommentData.id,
-      comment: deletedCommentData.comment,
+      return {
+        id: deletedCommentData.id,
+        comment: deletedCommentData.comment,
+      };
+    } catch (error) {
+      console.log(error)
+      throw new Error("Error");
     };
   };
 };
