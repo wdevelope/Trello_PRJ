@@ -23,6 +23,17 @@ class BoardsRepository {
   }
 
   //보드 조회
+  async getBoard(){
+    return await board.findAll({attributes:[
+      'id',
+      'title',
+      'description',
+      'color',
+      'userId',
+    ],
+   });
+  }
+
   //보드 수정
   async updateBoard(boardId, title, description, color) {
     console.log("repo", boardId, title, description, color);
@@ -43,7 +54,8 @@ class BoardsRepository {
 
   //보드 삭제
   async deleteBoard(boardId) {
-    return await board.destroy({ where: { id: boardId } });
+    return await board.destroy({ where: { id: boardId },});
+    
   }
 
   //보드 초대

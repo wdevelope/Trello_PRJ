@@ -1,3 +1,4 @@
+const BoardsRepository = require("../repositories/boards.repositories");
 const BoardsService = require("../services/boards.service");
 const UserService = require("../services/user.service");
 const boardsService = new BoardsService();
@@ -18,7 +19,6 @@ class BoardsController {
       res.status(500).json({ message: err.message });
     }
   }
-
   //보드 상세 조회
   async getBoardDetail(req, res) {
     try {
@@ -32,6 +32,15 @@ class BoardsController {
     }
   }
   //보드 조회
+  async getBoard(req, res) {
+    try {
+      const getBoard = await boardsService.getBoard();
+      res.json(getBoard);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
 
   //보드 수정
   async updateBoard(req, res) {
@@ -50,12 +59,12 @@ class BoardsController {
   //보드 삭제
   async deleteBoard(req, res) {
     try {
-      //const userId = res.locals.user.id;
+      const userId = res.locals.user.id;
+      console.log("cont", userId);
       const { boardId } = req.params;
-      console.log(boardId);
-      
+      console.log("cont", boardId);
 
-      await UserService.deleteBoard(boardId);
+      await boardsService.deleteBoard(boardId, userId);
       res.json({ message: "보드 삭제 성공." });
     } catch (err) {
       console.log(err);
