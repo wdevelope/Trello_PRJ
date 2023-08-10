@@ -24,7 +24,8 @@ class UsersController {
     const { email, password } = req.body;
     try {
       const token = await userService.loginUser(email, password);
-      res.cookie("authorization", `Bearer ${token}`);
+      console.log(token);
+      res.header("authorization", `Bearer ${token}`);
       res.status(200).json({ message: "로그인 성공" });
     } catch (err) {
       console.error(err);

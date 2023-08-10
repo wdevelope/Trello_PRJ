@@ -7,7 +7,7 @@ class BoardsController {
   //보드 생성
   async createBoard(req, res) {
     const { title, description, color } = req.body;
-    const userId = res.locals.user.id;
+    const userId = res.locals.userId;
     console.log(userId);
     console.log(title, description, color);
 
