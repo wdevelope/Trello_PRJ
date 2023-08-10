@@ -10,7 +10,6 @@ function createBoard() {
     /*로컬에 userId 가져와야하는데?! */ method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: sessionStorage.getItem("Authorization"),
     },
     body: JSON.stringify({ title, description, color }),
   })
@@ -24,3 +23,5 @@ function createBoard() {
       console.error("Error:", error);
     });
 }
+
+//보드 상세 보기 함수
