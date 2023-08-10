@@ -14,9 +14,9 @@ class BoardsService {
     return newBoard;
   }
   //보드 상세 조회
-  async getBoardDetail(boardId) {
-    console.log(boardId);
-    const board = await boardsRepository.getBoardDetail(boardId);
+  async getBoardDetail(userId) {
+    console.log(userId);
+    const board = await boardsRepository.getBoardDetail(userId);
     if (!board) {
       throw new Error("보드를 찾을 수 없습니다.");
     }
@@ -25,7 +25,7 @@ class BoardsService {
   }
 
   //보드 조회
-  async getBoard(){
+  async getBoard() {
     const getBoard = await boardsRepository.getBoard();
 
     return getBoard;
@@ -43,7 +43,7 @@ class BoardsService {
     if (!updateBoard[0]) {
       throw new Error("보드 업데이트 불가.");
     }
-    
+
     return updateBoard;
   }
   //보드 삭제
@@ -52,11 +52,11 @@ class BoardsService {
     console.log("ser uI", userId);
 
     const compareBoardData = await boardsRepository.compareBoard(boardId);
-    if(!compareBoardData){
-        throw new Error("보드 삭제 권한 없음");
+    if (!compareBoardData) {
+      throw new Error("보드 삭제 권한 없음");
     }
-    if(compareBoardData.userId !== userId){
-        throw new Error("보드 삭제 권한 없음");
+    if (compareBoardData.userId !== userId) {
+      throw new Error("보드 삭제 권한 없음");
     }
     const deleteBoard = await boardsRepository.deleteBoard(boardId);
 

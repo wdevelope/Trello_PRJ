@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const sequelize = require("./database/mysql");
+const cors = require("cors");
 require("./database/models/index");
 
 const app = express();
@@ -10,6 +11,12 @@ const router = require("./routes");
 app.use(cookieParser());
 app.use(express.json());
 app.use("/", router);
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  }),
+);
 
 app.use(express.static(__dirname + "/public"));
 
