@@ -15,5 +15,8 @@ router.use("/board", cardsRouter);
 //댓글 라우터
 const commentsRouter = require("./comments.routes");
 router.use("/board", commentsRouter);
+//맴버 초대 라우터
+const boardMemberRouter = require("./boardMember.routes");
+router.use("/boardMember", boardMemberRouter);
 
 module.exports = router;
