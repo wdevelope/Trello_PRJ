@@ -1,12 +1,13 @@
 // 페이지 로드 시 실행될 함수
-document.addEventListener("DOMContentLoaded", loadColumn);
+// document.addEventListener("DOMContentLoaded", loadColumn);
 //컬럼 조회
+
 async function loadColumn(boardId) {
   const option = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Authorization"),
+      Authorization: sessionStorage.getItem("Authorization"),
     },
   };
 
@@ -21,23 +22,21 @@ async function loadColumn(boardId) {
   column.forEach((data) => {
     const columnDiv = document.createElement("div");
     columnDiv.classList.add("col-lg-3", "col-md-6", "col-sm-12", "mb-4");
-
-    columnDiv.innerHTML += `
-    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+    const modalId = `addCardModal-${data.id}`; // 모달의 고유한 ID 생성
+    columnDiv.innerHTML = `
     <div class="column h-100 p-2 bg-light rounded">
       <h4>${data.title}</h4>
       
       <button
         data-toggle="modal"
-        data-target="#addCardModal"
+        data-target="#${modalId}"
         class="btn btn-secondary mt-3"
       >
         카드 추가
-      </button>
+      </button> 
     </div>
-  </div>
 
-  <div class="modal fade" id="addCardModal">
+<div class="modal fade" id="${modalId}">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -97,9 +96,8 @@ async function loadColumn(boardId) {
     container.appendChild(columnDiv);
   });
 }
-
 //컬럼 생성
-async function addColumn(boardId) {
+async function createColumn(board) {
   const obj = {};
   obj.title = $("#columnTitle").val();
   obj.position = $("#columnPosition").val();
@@ -108,7 +106,7 @@ async function addColumn(boardId) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Authorization"),
+      Authorization: sessionStorage.getItem("Authorization"),
     },
 
     body: JSON.stringify(obj),
@@ -116,13 +114,13 @@ async function addColumn(boardId) {
 
   try {
     const fetchedData = await fetch(
-      `http://localhost:3000/board/${boardId}/column`,
+      `http://localhost:3000/board/${board.id}/column`,
       option,
     ).then((data) => {
       return data.json();
     });
     console.log(fetchedData);
-    location.reload();
+    // location.reload();
   } catch (e) {
     console.error(e);
   }
@@ -138,7 +136,7 @@ async function updateColumn(boardId, columnId) {
     method: PUT,
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Authorization"),
+      Authorization: sessionStorage.getItem("Authorization"),
     },
     body: JSON.stringify(obj),
   };
@@ -162,7 +160,7 @@ async function deleteColumn(boardId, columnId) {
     method: DELETE,
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Authorization"),
+      Authorization: sessionStorage.getItem("Authorization"),
     },
   };
 
@@ -179,3 +177,5 @@ async function deleteColumn(boardId, columnId) {
     console.error(e);
   }
 }
+
+module.exports = Column;
