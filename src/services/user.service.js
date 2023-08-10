@@ -43,7 +43,7 @@ class UserService {
     });
     console.log("토큰 생성 완료");
 
-    return token;
+    return { token, userId: user.id }; // token과 userId 값을 같이 반환합니다.
   }
 
   // 로그아웃

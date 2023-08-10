@@ -9,7 +9,7 @@ router.post("/", auth, BoardsController.createBoard);
 //보드 조회
 router.get("/", BoardsController.getBoard);
 //보드 상세조회
-router.get("/:boardId", BoardsController.getBoardDetail);
+router.get("/:userId", BoardsController.getBoardDetail);
 //보드 수정
 router.put("/:boardId", auth, BoardsController.updateBoard);
 //보드 삭제
