@@ -18,5 +18,8 @@ router.use("/board", commentsRouter);
 //카드 멤버 라우터
 const cardMemberRouter = require("./cardMenber.routes");
 router.use("/cardMember", cardMemberRouter);
+//맴버 초대 라우터
+const boardMemberRouter = require("./boardMember.routes");
+router.use("/boardMember", boardMemberRouter);
 
 module.exports = router;

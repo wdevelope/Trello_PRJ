@@ -265,3 +265,5 @@ async function createBoard() {
     alert("보드 생성 중 에러 발생");
   }
 }
+
+//보드 상세 보기 함수
