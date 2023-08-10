@@ -25,16 +25,15 @@ class CommentService {
   };
 
   async createComment(id, cardId, comment) {
-    try {
-      const existCard = await cardRepository.findCardById(cardId);
-      
-      if (!existCard) {
-        throw new Error("NotFoundCard");
-      };
+    const existCard = await cardRepository.findCardById(cardId);
+    if (!existCard) {
+      throw new Error("NotFoundCard");
+    };
 
-      if (comment.length <= 0) {
-        throw new Error("Empty");
-      };
+    if (comment.length <= 0) {
+      throw new Error("Empty");
+    };
+    try {
       const createCommentData = await commentRepository.createComment(id, cardId, comment);
 
       return {
@@ -49,7 +48,7 @@ class CommentService {
   };
 
   async updateComment(commentId, id, comment) {
-    
+
     const matchCommentInfo = await commentRepository.findCommentById(commentId);
 
     if (comment.length <= 0) {
