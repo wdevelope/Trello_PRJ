@@ -11,9 +11,9 @@ router.post("/login", UsersController.login);
 // 로그아웃
 router.post("/logout", UsersController.logoutUser);
 // 프로필 조회
-router.get("/:id", UsersController.getUser);
+router.get("/:id", auth, UsersController.getUser);
 // 유저 정보 수정
-router.put("/:id", UsersController.updateUser);
+router.put("/:id", auth, UsersController.updateUser);
 // 유저 삭제
 router.delete("/:id", auth, UsersController.deleteUser);
 

@@ -59,7 +59,7 @@ class BoardsController {
   //보드 삭제
   async deleteBoard(req, res) {
     try {
-      const userId = res.locals.user.id;
+      const userId = res.locals.userId;
       console.log("cont", userId);
       const { boardId } = req.params;
       console.log("cont", boardId);
