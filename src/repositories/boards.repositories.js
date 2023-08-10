@@ -18,20 +18,15 @@ class BoardsRepository {
   }
 
   //보드 상세 조회
-  async getBoardDetail(boardId) {
-    return await board.findOne({ where: { id: boardId } });
+  async getBoardDetail(userId) {
+    return await board.findAll({ where: { userId } });
   }
 
   //보드 조회
-  async getBoard(){
-    return await board.findAll({attributes:[
-      'id',
-      'title',
-      'description',
-      'color',
-      'userId',
-    ],
-   });
+  async getBoard() {
+    return await board.findAll({
+      attributes: ["id", "title", "description", "color", "userId"],
+    });
   }
 
   //보드 수정
@@ -54,8 +49,7 @@ class BoardsRepository {
 
   //보드 삭제
   async deleteBoard(boardId) {
-    return await board.destroy({ where: { id: boardId },});
-    
+    return await board.destroy({ where: { id: boardId } });
   }
 
   //보드 초대

@@ -1,21 +1,10 @@
-$(document).ready(function () {
-  getColumn();
-});
-
-// 회원가입 함수
 document.addEventListener("DOMContentLoaded", function () {
   updateUIBasedOnAuth();
 });
 
 // 🪪 nav 버튼 생성 삭제
-function getCookie(name) {
-  let value = "; " + document.cookie;
-  let parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
-}
-
 function updateUIBasedOnAuth() {
-  const authorization = getCookie("authorization");
+  const authorization = sessionStorage.getItem("Authorization");
 
   if (authorization) {
     // 로그인된 경우
@@ -37,28 +26,32 @@ function updateUIBasedOnAuth() {
 }
 
 // 🪪 회원가입 함수
-function signup() {
+async function signup() {
   const email = document.getElementById("registerEmail").value;
   const password = document.getElementById("registerPassword").value;
   const nickname = document.getElementById("registerNickname").value;
   const passwordConfirm = document.getElementById("confirmPassword").value;
 
-  fetch("http://localhost:3000/user/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, nickname, password, passwordConfirm }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.message) {
-        alert(data.message);
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+  try {
+    const response = await fetch("http://localhost:3000/user/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, nickname, password, passwordConfirm }),
     });
+
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      throw new Error(data.message || "회원가입에 실패했습니다.");
+    }
+
+    alert(data.message);
+  } catch (error) {
+    console.error("Error during signup:", error);
+    alert(error.message);
+  }
 }
 
 // 🪪 로그인 함수
@@ -66,41 +59,60 @@ async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  fetch("http://localhost:3000/user/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.message) {
-        alert(data.message);
-        window.location.reload();
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+  try {
+    const response = await fetch("http://localhost:3000/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
     });
+
+    const result = await response.json();
+
+    if (response.status == 200) {
+      sessionStorage.setItem(
+        "Authorization",
+        response.headers.get("Authorization"),
+      );
+
+      sessionStorage.setItem("userId", response.headers.get("userId"));
+
+      alert(result.message);
+      window.location.reload();
+    } else {
+      alert(result.message || "로그인에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("로그인 에러:", error);
+    alert("로그인 중 에러 발생");
+  }
 }
 
 // 🪪 로그아웃 함수
-function logout() {
-  fetch("http://localhost:3000/user/logout", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.message) {
-        alert(data.message);
-        window.location.reload();
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+
+async function logout() {
+  try {
+    // 서버에 로그아웃 요청을 보내기
+    const response = await fetch("http://localhost:3000/user/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Authorization"),
+      },
     });
+
+    if (response.status !== 200) {
+      throw new Error("Failed to logout");
+    }
+    sessionStorage.removeItem("Authorization");
+    sessionStorage.removeItem("userId");
+    updateUIBasedOnAuth();
+    location.reload();
+
+    alert("로그아웃 되었습니다.");
+  } catch (error) {
+    console.error("로그아웃 에러:", error);
+    alert("로그아웃 중 에러 발생");
+  }
 }
