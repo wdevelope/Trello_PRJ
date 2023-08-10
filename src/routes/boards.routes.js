@@ -11,7 +11,7 @@ router.get("/", BoardsController.getBoard);
 //보드 상세조회
 router.get("/:boardId", BoardsController.getBoardDetail);
 //보드 수정
-router.put("/:boardId", BoardsController.updateBoard);
+router.put("/:boardId", auth, BoardsController.updateBoard);
 //보드 삭제
 router.delete("/:boardId", auth, BoardsController.deleteBoard);
 
