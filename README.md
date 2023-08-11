@@ -1,6 +1,6 @@
 # 🔥 협업툴 Trello 프로젝트
 
-![MAIN] (https://ifh.cc/g/fMZKly.png)
+![MAIN](https://ifh.cc/g/fMZKly.png)
 
 - 프로젝트 협업관리 사이트 <Trello> 벤치마킹 프로젝트
 - express, javascript 사용 아키텍쳐 패턴으로 서버구현
