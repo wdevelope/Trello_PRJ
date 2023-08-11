@@ -1,8 +1,9 @@
 # 🔥 협업툴 Trello 프로젝트
 
-- 프로젝트 협업 작업관리 사이트
-- express, javascript 함수화를 사용해서 아키텍쳐 패턴으로 서버구현
+- 프로젝트 협업관리 사이트 <Trello> 벤치마킹 프로젝트
+- express, javascript 사용 아키텍쳐 패턴으로 서버구현
 - 서버실행 npm run dev
+- public : 프론트폴더
 
 <br>
 
@@ -25,36 +26,43 @@
 ### user (유저)
 
 1. 회원가입 (POST) = /user/signup
-2. 로그인 (GET) = /user/login
+2. 로그인 (POST) = /user/login
 3. 유저 조회 (DELETE) = /user/:id
 4. 유저 정보 수정 (PUT) = /user/:id
 5. 유저 삭제 (DELETE) = /user/:id
 
-### board (보드 관련)
+### board (보드)
 
 1. 생성 (POST) = /board
-2. 조회 (GET) = /board
+2. 조회 (GET) = /board/:userId
 3. 삭제 (DELETE) = /board/:boradId
 4. 수정 (PUT) = /board/:boardId
 5. 초대 (POST) = /board/:boardId
 
-### column (컬럼 관련)
+### boardMember (보드멤버)
+
+1. 초대 (POST) = /boardMember/:boardId
+2. 조회 (GET) = /boardMember/:boardId
+3. 삭제 (DLELETE) = /boardMember/:boardId
+
+### column (컬럼)
 
 1. 생성 (POST) = /board/:boardId/column
 2. 조회 (GET) = /board/:boardId/column/:columnId
 3. 삭제 (DELETE) = /board/:boardId/column/:columnId
 4. 수정 (PUT) = /board/:boardId/column/:columnId
 
-### card (카드 관련)
+### card (카드)
 
-1. 생성 (POST) = /board/:boardId/column
-2. 조회 (GET) = /board/:boardId/column/:columnId
-3. 삭제 (DELETE) = /board/:boardId/column/:columnId
-4. 수정 (PUT) = /board/:boardId/column/:columnId
+1. 생성 (POST) = /column/card
+2. 전체조회 (GET) = /column/:columnId/card
+3. 상세조회 (GET) = /column/:columnId/card/:cardId
+4. 삭제 (DELETE) = /column/:columnId/card/:cardId
+5. 수정 (PUT) = /column/:columnId/card/:cardId
 
-### comment (댓글 관련)
+### comment (댓글)
 
-1. 생성 (POST) = /board/:boradId/column/:columnId/card/:cardId/comment
-2. 조회 (GET) = /board/:boradId/column/:columnId/card/:cardId/comment
-3. 삭제 (DELETE) = /board/:boradId/column/:columnId/card/:cardId/comment/:commentId
-4. 수정 (PUT) = /board/:boradId/column/:columnId/card/:cardId/comment/:commentId
+1. 생성 (POST) = /card/:cardId/comment
+2. 조회 (GET) = /card/:cardId/comment
+3. 삭제 (DELETE) = /card/:cardId/comment/:commentId
+4. 수정 (PUT) = /card/:cardId/comment/:commentId

@@ -11,10 +11,10 @@ const columnsRouter = require("./columns.routes");
 router.use("/board", columnsRouter);
 //카드 라우터
 const cardsRouter = require("./cards.routes");
-router.use("/board", cardsRouter);
+router.use("/column", cardsRouter);
 //댓글 라우터
 const commentsRouter = require("./comments.routes");
-router.use("/board", commentsRouter);
+router.use("/card", commentsRouter);
 //카드 멤버 라우터
 const cardMemberRouter = require("./cardMenber.routes");
 router.use("/cardMember", cardMemberRouter);

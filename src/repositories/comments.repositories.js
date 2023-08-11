@@ -5,13 +5,13 @@ class CommentReopository {
     const findCommentById = await Comment.findByPk(commentId);
 
     return findCommentById;
-  };
+  }
 
-  async getComments() {
-    const getCommentsData = await Comment.findAll()
+  async getComments(cardId) {
+    const getCommentsData = await Comment.findAll({ where: { cardId } });
 
     return getCommentsData;
-  };
+  }
 
   async createComment(id, cardId, comment) {
     const createCommentData = await Comment.create({
@@ -21,7 +21,7 @@ class CommentReopository {
     });
 
     return createCommentData;
-  };
+  }
 
   async updateComment(commentId, id, comment) {
     const updateCommentData = await Comment.update(
@@ -29,13 +29,15 @@ class CommentReopository {
       { where: { id: commentId, userId: id } },
     );
     return updateCommentData;
-  };
+  }
 
   async deleteComment(commentId, id) {
-    const deleteCommentData = await Comment.destroy({ where: { id: commentId, userId: id } });
+    const deleteCommentData = await Comment.destroy({
+      where: { id: commentId, userId: id },
+    });
 
     return deleteCommentData;
-  };
-};
+  }
+}
 
 module.exports = CommentReopository;
