@@ -11,16 +11,16 @@
 
 # 🔥 개발 일정
 
-![Schedule](https://ifh.cc/g/74GtDR.png)
+![Schedule](https://ifh.cc/g/SYyGVM.png)
 
 <br>
 
 # 🔥 역할 분배
 
-- 지안 : 댓글 api , 서버 추가기능
-- 승원 : 컬럼 api , 서버 추가기능
-- 형진 : 보드 api , 서버 추가기능
-- 성원 : 카드 api , 프론트
+- 지안 : 댓글 api , 로직 복습
+- 승원 : 컬럼 api , 컬럼 프론트 , 서버 추가기능
+- 형진 : 보드, 보드멤버 api , 소켓 추가기능
+- 성원 : 카드, 카드멤버 api , 프론트
 
 <br>
 
