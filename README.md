@@ -9,6 +9,21 @@
 
 <br>
 
+# 🔥 개발 일정
+
+![Schedule](https://ifh.cc/g/74GtDR.png)
+
+<br>
+
+# 🔥 역할 분배
+
+- 지안 : 댓글 api , 서버 추가기능
+- 승원 : 컬럼 api , 서버 추가기능
+- 형진 : 보드 api , 서버 추가기능
+- 성원 : 카드 api , 프론트
+
+<br>
+
 # 🔥 ERD
 
 ![ERD](https://ifh.cc/g/Cx5519.jpg)
