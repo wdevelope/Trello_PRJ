@@ -15,8 +15,10 @@ class CardController {
 
   //카드 전체 조회
   async getAllCards(req, res) {
+    const { columnId } = req.params;
+    console.log(columnId);
     try {
-      const cards = await cardservice.getAllCards();
+      const cards = await cardservice.getAllCards(columnId);
       res.status(200).json(cards);
     } catch (error) {
       res.status(400).json({ message: error.message });

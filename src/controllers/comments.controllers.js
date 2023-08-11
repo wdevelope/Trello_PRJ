@@ -3,8 +3,9 @@ const commentService = new CommentService();
 
 class CommentController {
   async getComments(req, res) {
+    const { cardId } = req.params;
     try {
-      const getCommentsData = await commentService.getComment();
+      const getCommentsData = await commentService.getComment(cardId);
       res.status(200).json({ data: getCommentsData });
     } catch (error) {
       if (error.message === "NotFoundComments") {

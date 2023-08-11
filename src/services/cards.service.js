@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const CardRepository = require("../repositories/cards.repositories");
 
 class CardService {
@@ -45,9 +46,8 @@ class CardService {
   }
 
   // 전체 카드 조회
-  async getAllCards() {
-    const cards = await this.cardRepository.findAllCards();
-
+  async getAllCards(columnId) {
+    const cards = await this.cardRepository.findAllCards(columnId);
     if (!cards) {
       throw new Error("카드 전체 조회에 실패했습니다.");
     }

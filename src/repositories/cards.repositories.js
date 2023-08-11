@@ -12,9 +12,11 @@ class CardRepository {
   }
 
   // 카드 전체 조회 레포지
-  async findAllCards() {
+  async findAllCards(columnId) {
     try {
-      return await card.findAll();
+      return await card.findAll({
+        where: { columnId },
+      });
     } catch (error) {
       throw new Error("카드 조회 중 오류가 발생했습니다.");
     }
