@@ -9,15 +9,15 @@
 
 # 🔥 ERD
 
-![ERD](https://ifh.cc/g/p8bVhM.png)
+![ERD](https://ifh.cc/g/Cx5519.jpg)
 
-1. Users : 유저
-2. Boards : 보드
-3. Columns : 보드 안에 컬럼
-4. Cards : 컬럼 안에 카드
-5. Comments : 카드 안에 댓글
-6. BoardMember : 보드 멤버 관리
-7. CardMember : 카드 멤버 관리
+1. users : 유저
+2. boards : 보드
+3. columns : 보드 안에 컬럼
+4. cards : 컬럼 안에 카드
+5. comments : 카드 안에 댓글
+6. boardMember : 보드 멤버 관리
+7. cardMember : 카드 멤버 관리
 
 <br>
 
