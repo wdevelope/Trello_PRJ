@@ -15,7 +15,6 @@ router.put("/:boardId", auth, BoardsController.updateBoard);
 //보드 삭제
 router.delete("/:boardId", auth, BoardsController.deleteBoard);
 
-//보드 초대
 
 module.exports = router;
 
