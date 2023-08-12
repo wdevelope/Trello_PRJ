@@ -3,13 +3,22 @@ const boardsMemberRepository = new BoardsMemberRepository();
 
 class BoardsService {
   //보드 맴버 추가
-  async createBoardMember(memberId, boardId, userId) {
-    console.log("ser userId", userId);
-    console.log("ser boardId", boardId);
-    console.log("ser memberId", memberId);
+  async createBoardMember(boardId, userId) {
+    const user = await boardsMemberRepository.findUserById(userId);
+    if (!user) {
+      throw new Error("존재하지 않는 유저입니다.");
+    }
+
+    const existingMember = await boardsMemberRepository.findBoardMember(
+      userId,
+      boardId,
+    );
+    if (existingMember) {
+      throw new Error("해당 유저는 이미 보드의 멤버입니다.");
+    }
 
     const newBoardMember = await boardsMemberRepository.createBoardMember(
-      memberId,
+      userId,
       boardId,
     );
     return newBoardMember;
@@ -51,6 +60,19 @@ class BoardsService {
     }
 
     return getBoardMember;
+  }
+
+  // 주어진 userId에 속한 모든 보드들의 정보를 가져옴
+  async getBoardsByUserId(userId) {
+    const boardMemberships = await boardsMemberRepository.findBoardsByUserId(
+      userId,
+    );
+
+    if (boardMemberships.length === 0) {
+      throw new Error("해당 유저가 속한 보드가 없습니다.");
+    }
+
+    return boardMemberships.map((bm) => bm.board);
   }
 }
 

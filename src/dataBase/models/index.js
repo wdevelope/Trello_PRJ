@@ -23,7 +23,7 @@ cardMember.belongsTo(user);
 board.hasMany(column, { onDelete: "CASCADE" });
 column.belongsTo(board);
 
-board.hasMany(boardMember);
+board.hasMany(boardMember, { onDelete: "CASCADE" });
 boardMember.belongsTo(board);
 
 // column 관계

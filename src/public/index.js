@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const userId = sessionStorage.getItem("userId");
   if (userId) {
     RenderBoards(userId);
+    invitedBoard();
   } else {
     console.log("로그인이 필요합니다.");
   }
@@ -30,21 +31,27 @@ function closeModal() {
 // 🔴 메인 nav 버튼 생성 삭제
 function updateUIBasedOnAuth() {
   const authorization = sessionStorage.getItem("Authorization");
-
+  const heroSection = document.getElementById("heroSection");
+  const startBtn = document.getElementById("startBtn");
+  inviteBoardButton;
   if (authorization) {
     // 로그인된 경우
-    document.getElementById("authBtn").style.display = "none";
-    document.getElementById("signupBtn").style.display = "none";
+    heroSection.style.display = "none"; // 히어로 영역 숨기기
+    startBtn.style.display = "none"; // 시작하기 버튼 숨기기
+    document.getElementById("authBtn").style.display = "none"; // 로그인/회원가입 버튼 숨기기
     document.getElementById("logoutBtn").style.display = "block";
     document.getElementById("boardButton").style.display = "block";
     document.getElementById("profilBtn").style.display = "block";
+    document.getElementById("inviteBoardButton").style.display = "block";
   } else {
     // 로그아웃된 경우
-    document.getElementById("authBtn").style.display = "block";
-    document.getElementById("signupBtn").style.display = "block";
+    heroSection.style.display = "block"; // 히어로 영역 표시
+    startBtn.style.display = "block"; // 시작하기 버튼 표시
+    document.getElementById("authBtn").style.display = "block"; // 로그인/회원가입 버튼 표시
     document.getElementById("logoutBtn").style.display = "none";
     document.getElementById("boardButton").style.display = "none";
     document.getElementById("profilBtn").style.display = "none";
+    document.getElementById("inviteBoardButton").style.display = "none";
   }
 }
 
@@ -139,6 +146,40 @@ async function logout() {
   }
 }
 
+// 🟤 프로필
+async function profile() {
+  try {
+    const userId = sessionStorage.getItem("userId");
+
+    if (!userId) {
+      throw new Error("로그인 정보가 없습니다.");
+    }
+
+    const response = await fetch(`http://localhost:3000/user/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Authorization"),
+      },
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || "유저 정보를 가져오는데 실패했습니다.");
+    }
+
+    const userData = await response.json();
+
+    // 가져온 정보를 모달에 설정
+    document.getElementById("profileUserId").textContent = userData.id;
+    document.getElementById("profileEmail").textContent = userData.email;
+    document.getElementById("profileNickname").textContent = userData.nickname;
+  } catch (error) {
+    console.error("Profile Error:", error);
+    alert(error.message);
+  }
+}
+
 // 🟣 보드 생성
 async function createBoard() {
   const title = document.getElementById("titleBoard").value;
@@ -160,6 +201,7 @@ async function createBoard() {
     if (response.status === 201) {
       $("#createBoardModal").modal("hide");
       alert(data.message || "보드 생성에 성공했습니다.");
+
       location.reload();
     } else {
       alert(data.message || "보드 생성에 실패했습니다.");
@@ -167,35 +209,6 @@ async function createBoard() {
   } catch (error) {
     console.error("보드 에러 발생:", error);
     alert("보드 생성 중 에러 발생");
-  }
-}
-
-// 🟣 보드 삭제
-async function deleteBoard(boardId) {
-  const confirmation = confirm("정말로 보드를 삭제하시겠습니까?");
-  if (!confirmation) {
-    return;
-  }
-  try {
-    const response = await fetch(`http://localhost:3000/board/${boardId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionStorage.getItem("Authorization"),
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.status === 200) {
-      alert(data.message || "보드 삭제에 성공했습니다.");
-      location.reload();
-    } else {
-      alert(data.message || "보드 삭제 실패했습니다.");
-    }
-  } catch (error) {
-    console.error("보드 삭제 에러 발생:", error);
-    alert("보드 삭제중 에러 발생");
   }
 }
 
@@ -261,6 +274,191 @@ async function RenderBoards(userId) {
         .setAttribute("data-current-board-id", boardId);
     });
   });
+  document
+    .querySelectorAll("[data-toggle='modal'][data-target='#inviteUserModal']")
+    .forEach((button) => {
+      button.addEventListener("click", function () {
+        const boardId = this.closest(".board").getAttribute("data-board-id");
+        document
+          .getElementById("inviteUserModal")
+          .setAttribute("data-current-board-id", boardId);
+      });
+    });
+}
+
+// 🟣 보드 삭제
+async function deleteBoard(boardId) {
+  const confirmation = confirm("정말로 보드를 삭제하시겠습니까?");
+  if (!confirmation) {
+    return;
+  }
+  try {
+    const response = await fetch(`http://localhost:3000/board/${boardId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Authorization"),
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.status === 200) {
+      alert(data.message || "보드 삭제에 성공했습니다.");
+      location.reload();
+    } else {
+      alert(data.message || "보드 삭제 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("보드 삭제 에러 발생:", error);
+    alert("보드 삭제중 에러 발생");
+  }
+}
+
+// 🟠 보드멤버 초대
+async function inviteUser() {
+  const userId = document.querySelector(
+    '#inviteUserModal input[type="text"]',
+  ).value;
+
+  if (!userId) {
+    alert("유저 ID를 입력해주세요.");
+    return;
+  }
+
+  // 현재 보드의 ID 가져오기
+  const boardId = document
+    .getElementById("inviteUserModal")
+    .getAttribute("data-current-board-id");
+
+  console.log("보드 id가져오는지 확인:", boardId);
+  // API 호출
+  try {
+    const response = await fetch(
+      `http://localhost:3000/boardMember/${boardId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: sessionStorage.getItem("Authorization"), // 인증 토큰이 필요하다면
+        },
+        body: JSON.stringify({ userId: userId }),
+      },
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || "유저를 초대하는데 실패했습니다.");
+    }
+
+    alert("유저가 성공적으로 초대되었습니다.");
+    $("#inviteUserModal").modal("hide"); // 모달 닫기
+  } catch (error) {
+    alert(`${error.message}`);
+  }
+}
+
+// 🟠 초대된 보드 불러오기
+async function invitedBoard() {
+  try {
+    const userId = sessionStorage.getItem("userId");
+    if (!userId) {
+      throw new Error("로그인 정보가 없습니다.");
+    }
+
+    const response = await fetch(
+      `http://localhost:3000/boardMember/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: sessionStorage.getItem("Authorization"),
+        },
+      },
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || "보드 정보를 가져오는데 실패했습니다.");
+    }
+
+    const boards = await response.json();
+
+    if (!boards || boards.length === 0) {
+      throw new Error("받아온 보드 정보가 없습니다.");
+    }
+    // 기존에 렌더링된 보드의 ID 목록을 가져옵니다.
+    const existingBoardIds = Array.from(
+      document.querySelectorAll("[data-board-id]"),
+    ).map((el) => el.getAttribute("data-board-id"));
+
+    if (!existingBoardIds) {
+      throw new Error("기존 보드 ID를 가져오는데 실패했습니다.");
+    }
+
+    // 각 보드를 렌더링합니다.
+    const mainSection = document.querySelector("main");
+    for (const board of boards) {
+      // 이미 렌더링된 보드는 건너뛰기
+      if (existingBoardIds.includes(board.id.toString())) {
+        continue;
+      }
+      const boardHtml = `
+                        <div id="mainBoard" data-board-id="${board.id}" style="background-color:${board.color}" class="board w-100 p-3 mt-5 border">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h1>${board.title}</h1>
+                                    <div class="description">${board.description}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <p class="mb-1 mr-3">참여중인 유저 :</p>
+                                    <button data-toggle="modal" data-target="#inviteUserModal" class="btn btn-primary mb-1 mr-3">
+                                        유저 초대
+                                    </button>
+                                    <button data-toggle="modal" data-target="#addColumnModal" class="btn btn-primary mb-1 mr-3 btn-add-column" data-board-id="${board.id}">
+                                        컬럼 추가
+                                    </button>                                    
+                                </div>
+                            </div>
+                            <div class="columns-container"></div>  <!-- 컬럼 렌더링하는 부분 -->  
+                            <div class="text-right">
+                            <button class="btn btn-danger mt-3 btn-delete-board" data-board-id="${board.id}" onclick="deleteBoard(this.getAttribute('data-board-id'))">
+                                보드 삭제 
+                            </button>
+                            </div>                        
+                        </div>
+                      `;
+
+      mainSection.insertAdjacentHTML("beforeend", boardHtml);
+
+      // 각 보드마다 해당 보드의 컬럼을 불러와 렌더링합니다.
+      await loadColumn(board.id);
+    }
+
+    // 모달 이벤트 리스너
+    document.querySelectorAll(".btn-add-column").forEach((button) => {
+      button.addEventListener("click", function () {
+        const boardId = this.getAttribute("data-board-id");
+        document
+          .getElementById("addColumnModal")
+          .setAttribute("data-current-board-id", boardId);
+      });
+    });
+
+    document
+      .querySelectorAll("[data-toggle='modal'][data-target='#inviteUserModal']")
+      .forEach((button) => {
+        button.addEventListener("click", function () {
+          const boardId = this.closest(".board").getAttribute("data-board-id");
+          document
+            .getElementById("inviteUserModal")
+            .setAttribute("data-current-board-id", boardId);
+        });
+      });
+  } catch (error) {
+    console.error("Error fetching boards:", error);
+    alert(error.message);
+  }
 }
 
 // 🟢 컬럼 생성
@@ -344,8 +542,8 @@ async function loadColumn(boardId) {
                                               onclick="deleteColumn(this.getAttribute('data-board-id'), this.getAttribute('data-column-id'))">
                                           X
                                       </button>
-                                  </div>                             
-                                  <div class="card-container flex-grow-1"></div>
+                                  </div>
+                                  <div class="card-container flex-grow-1 overflow-auto"></div>
                                   <div class="mt-3 d-flex justify-content-between">                           
                                       <button data-toggle="modal"
                                               data-target="#addCardModal"
@@ -364,7 +562,7 @@ async function loadColumn(boardId) {
                                       </button>
                                   </div>
                               </div>
-                            `;
+                          `;
       container.appendChild(columnDiv);
 
       requestAnimationFrame(() => {
@@ -610,7 +808,9 @@ async function updateCard() {
 
     alert(fetchedData.message || "카드 수정에 성공했습니다.");
     $("#updateCardModal").modal("hide");
-    displayCardDetails(columnId, cardId); // 상세 정보를 다시 불러와서 화면에 반영합니다.
+    window.location.reload();
+
+    // displayCardDetails(columnId, cardId);
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -760,6 +960,7 @@ async function addComment() {
 
     // 댓글 추가 후 댓글 목록 갱신
     await loadComments(cardId);
+    alert("댓글 작성에 성공했습니다.");
   } catch (err) {
     console.error(err);
     alert("댓글을 추가하는데 오류가 발생했습니다: " + err.message);
@@ -836,6 +1037,3 @@ async function loadComments(cardId) {
     alert(err.message);
   }
 }
-
-// 🟠 보드멤버 초대
-// 🟠 카드멤버 초대
