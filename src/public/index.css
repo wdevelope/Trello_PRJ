@@ -1,10 +1,65 @@
-@import url("https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500&family=Noto+Sans+KR:wght@300&family=Orbit&display=swap");
-* {
-  font-family: "Orbit", sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
 }
+
 /* nav 바 css */
 #navbar {
   background-color: rgb(50, 135, 209);
+}
+
+/* 히어로 영역 */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(2, 2, 2);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #434343;
+}
+
+.hero-content .btn {
+  font-size: 1.2rem;
+}
+
+#heroImage {
+  width: 100%; /* 이미지 너비를 100%로 설정하거나 원하는 너비로 설정 */
+  margin-top: 50px; /* 위쪽 여백 추가 */
+  display: block; /* 이미지 중앙 정렬 */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 100px;
+}
+
+#pageDescription {
+  width: 100%;
+  padding: 80px;
+  text-align: center; /* 텍스트 중앙 정렬 */
+  font-size: 2.4rem; /* 글꼴 크기 설정 */
+  color: #000000; /* 글꼴 색상 설정 */
+}
+
+#pageDescription > img {
+  margin-bottom: 60px;
 }
 
 /* 로고 css */
@@ -34,4 +89,36 @@
 .columns-container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.card:hover {
+  cursor: pointer;
+  transform: scaleY(1.02);
+}
+
+.card {
+  transition: transform 0.3s;
+}
+
+.card-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+label[for="cardDetailTitle"],
+label[for="cardDetailContent"],
+label[for="cardDetailDueDate"] {
+  font-weight: bold;
+  border-bottom: 1px solid #a9a9a9;
+  color: #000000;
 }
