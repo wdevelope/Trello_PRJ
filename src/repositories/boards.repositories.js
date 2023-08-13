@@ -1,5 +1,6 @@
 //const { Model } = require("sequelize");
 const board = require("../database/models/board");
+const boardMember = require("../dataBase/models/boardMember");
 
 class BoardsRepository {
   //보드 생성
@@ -19,7 +20,16 @@ class BoardsRepository {
 
   //보드 상세 조회
   async getBoardDetail(userId) {
-    return await board.findAll({ where: { userId } });
+    return await board.findAll({
+      where: { userId },
+      include: [
+        {
+          model: boardMember, // board와 연관된 boardMember 모델
+          as: "boardMembers", // 관계 별칭
+          attributes: ["userId"], // userId만 선택적으로 가져옴
+        },
+      ],
+    });
   }
 
   //보드 조회

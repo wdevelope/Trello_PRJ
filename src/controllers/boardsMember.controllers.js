@@ -6,11 +6,16 @@ class BoardsMemberController {
   async createBoardMember(req, res) {
     const { userId } = req.body;
     const { boardId } = req.params;
+    const currentUserId = res.locals.userId;
 
     console.log("cont boardId", boardId);
     console.log("cont userId", userId);
     try {
-      await boardsMemberService.createBoardMember(boardId, userId);
+      await boardsMemberService.createBoardMember(
+        boardId,
+        userId,
+        currentUserId,
+      );
       res.status(201).json({ message: "보드 맴버 추가 완료" });
     } catch (error) {
       res.status(400).json({ message: error.message });

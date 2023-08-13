@@ -42,9 +42,9 @@ body {
 }
 
 #heroImage {
-  width: 100%; /* 이미지 너비를 100%로 설정하거나 원하는 너비로 설정 */
-  margin-top: 50px; /* 위쪽 여백 추가 */
-  display: block; /* 이미지 중앙 정렬 */
+  width: 100%;
+  margin-top: 50px;
+  display: block;
   margin-left: auto;
   margin-right: auto;
   padding: 100px;
@@ -53,9 +53,9 @@ body {
 #pageDescription {
   width: 100%;
   padding: 80px;
-  text-align: center; /* 텍스트 중앙 정렬 */
-  font-size: 2.4rem; /* 글꼴 크기 설정 */
-  color: #000000; /* 글꼴 색상 설정 */
+  text-align: center;
+  font-size: 2.4rem;
+  color: #000000;
 }
 
 #pageDescription > img {
@@ -113,12 +113,4 @@ body {
 .card-container {
   flex-grow: 1;
   overflow-y: auto;
-}
-
-label[for="cardDetailTitle"],
-label[for="cardDetailContent"],
-label[for="cardDetailDueDate"] {
-  font-weight: bold;
-  border-bottom: 1px solid #a9a9a9;
-  color: #000000;
 }

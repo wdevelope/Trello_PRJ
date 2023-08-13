@@ -15,6 +15,6 @@ router.put("/:columnId/card/:id", auth, CardsController.updateCard);
 // 카드 삭제
 router.delete("/:columnId/card/:id", auth, CardsController.deleteCard);
 // 카드 이동
-router.put("/:columnId/card/:id", CardsController.moveCard);
+router.post("/:targetcolumnId/card/:id", CardsController.moveCard);
 
 module.exports = router;

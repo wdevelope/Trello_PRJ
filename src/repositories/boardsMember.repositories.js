@@ -10,6 +10,16 @@ class BoardsMemberRepository {
     return boardMember.create({ userId, boardId });
   }
 
+  // 보드의 생성자를 찾는 메소드
+  async findBoardCreator(boardId) {
+    return board.findOne({
+      where: {
+        id: boardId,
+      },
+      attributes: ["userId"], // 보드의 생성 유저 ID를 가져옵니다.
+    });
+  }
+
   //보드 멤버 추가시 중복 찾기
   async findBoardMember(userId, boardId) {
     return boardMember.findOne({

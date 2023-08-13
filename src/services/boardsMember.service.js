@@ -3,7 +3,15 @@ const boardsMemberRepository = new BoardsMemberRepository();
 
 class BoardsService {
   //보드 맴버 추가
-  async createBoardMember(boardId, userId) {
+  async createBoardMember(boardId, userId, currentUserId) {
+    const board = await boardsMemberRepository.findBoardCreator(boardId);
+    if (!board || board.userId !== currentUserId) {
+      // board.userId로 보드의 생성자 확인
+      throw new Error("보드를 만든 유저만 다른 유저를 초대할 수 있습니다.");
+    }
+    console.log(userId);
+
+    //currentUserId는 접속된 userId이고, id는 현재 생성된 보드의 보드id,
     const user = await boardsMemberRepository.findUserById(userId);
     if (!user) {
       throw new Error("존재하지 않는 유저입니다.");
@@ -67,10 +75,6 @@ class BoardsService {
     const boardMemberships = await boardsMemberRepository.findBoardsByUserId(
       userId,
     );
-
-    if (boardMemberships.length === 0) {
-      throw new Error("해당 유저가 속한 보드가 없습니다.");
-    }
 
     return boardMemberships.map((bm) => bm.board);
   }
