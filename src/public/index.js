@@ -1,4 +1,5 @@
 // 🔴메인 🟤회원 🟣보드 🔵모달 🟢컬럼 🟡카드 ⚪댓글 🟠초대
+let draggedItem = null;
 
 // 🔴 메인 pageload 함수
 document.addEventListener("DOMContentLoaded", function () {
@@ -18,6 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
       closeModal();
     }
   });
+
+  moveCard();
 });
 
 // 🔴 모달 관련
@@ -227,6 +230,9 @@ async function RenderBoards(userId) {
 
     if (response.ok) {
       for (const board of data) {
+        const boardMembersString = board.boardMembers
+          .map((member) => member.userId)
+          .join(", ");
         const boardHtml = `
                             <div id="mainBoard" data-board-id="${board.id}" style="background-color:${board.color}" class="board w-100 p-3 mt-5 border">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -235,7 +241,7 @@ async function RenderBoards(userId) {
                                         <div class="description">${board.description}</div>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <p class="mb-1 mr-3">참여중인 유저 :</p>
+                                        <p class="mb-1 mr-3">참여중인 유저 id : ${boardMembersString}</p>
                                         <button data-toggle="modal" data-target="#inviteUserModal" class="btn btn-primary mb-1 mr-3">
                                             유저 초대
                                         </button>
@@ -352,6 +358,8 @@ async function inviteUser() {
     }
 
     alert("유저가 성공적으로 초대되었습니다.");
+    location.reload();
+
     $("#inviteUserModal").modal("hide"); // 모달 닫기
   } catch (error) {
     alert(`${error.message}`);
@@ -384,9 +392,6 @@ async function invitedBoard() {
 
     const boards = await response.json();
 
-    if (!boards || boards.length === 0) {
-      throw new Error("받아온 보드 정보가 없습니다.");
-    }
     // 기존에 렌더링된 보드의 ID 목록을 가져옵니다.
     const existingBoardIds = Array.from(
       document.querySelectorAll("[data-board-id]"),
@@ -817,6 +822,116 @@ async function updateCard() {
   }
 }
 
+// 🟡 카드 이동
+async function moveCard() {
+  const cards = document.querySelectorAll(".card");
+
+  function dragStartHandler(e) {
+    draggedItem = this;
+    setTimeout(() => {
+      draggedItem.style.display = "none";
+    }, 0);
+
+    // handleMouseDown 함수의 로직 추가
+    if (e.target.draggable) {
+      e.target.onclick = null;
+      setTimeout(() => {
+        e.target.onclick = function () {
+          displayCardDetails(
+            parseInt(e.target.getAttribute("data-column-id")),
+            parseInt(e.target.getAttribute("data-card-id")),
+          );
+        };
+      }, 0);
+    }
+  }
+
+  function dragEndHandler(e) {
+    setTimeout(() => {
+      draggedItem.style.display = "";
+    }, 0);
+  }
+
+  for (const card of cards) {
+    card.removeEventListener("dragstart", dragStartHandler);
+    card.addEventListener("dragstart", dragStartHandler);
+
+    card.removeEventListener("dragend", dragEndHandler);
+    card.addEventListener("dragend", dragEndHandler);
+  }
+
+  const columns = document.querySelectorAll(".column");
+  for (const column of columns) {
+    // 기존 drop 이벤트 리스너 제거
+    column.removeEventListener("drop", dropHandler);
+    column.addEventListener("drop", dropHandler);
+
+    column.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    column.addEventListener("dragenter", function (e) {
+      e.preventDefault();
+    });
+  }
+}
+
+// 🟡 카드 이동 드래그 드랍
+async function dropHandler(e) {
+  e.preventDefault();
+
+  if (!draggedItem) {
+    console.error("카드 이동 에러");
+    return; // early return if draggedItem is not set
+  }
+
+  const cardContainer = this.querySelector(".card-container");
+  if (cardContainer.lastElementChild) {
+    cardContainer.insertBefore(
+      draggedItem,
+      cardContainer.lastElementChild.nextSibling,
+    );
+  } else {
+    cardContainer.appendChild(draggedItem);
+  }
+
+  let movedItem = draggedItem;
+
+  const cardId = movedItem.dataset.cardId;
+  const targetColumnId = this.dataset.columnId;
+
+  const cardsInColumn = Array.from(cardContainer.querySelectorAll(".card"));
+  const newPosition = cardsInColumn.indexOf(movedItem);
+
+  console.log("이동하는 카드id:", cardId);
+  console.log("이동된 컬럼id:", targetColumnId);
+
+  const response = await fetch(
+    `http://localhost:3000/column/${targetColumnId}/card/${cardId}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("Authorization"),
+      },
+      body: JSON.stringify({
+        targetColumnId,
+        position: newPosition,
+      }),
+    },
+  );
+
+  const result = await response.json();
+  if (response.ok) {
+    console.log(result.message);
+  } else {
+    console.error(result.message);
+  }
+
+  // 여기로 이동
+  draggedItem = null;
+}
+
 // 🟡 카드 렌더링
 async function loadCards(columnId) {
   if (!columnId) return;
@@ -860,17 +975,19 @@ async function loadCards(columnId) {
     cardContainer.innerHTML = "";
     cards.forEach((data) => {
       cardContainer.innerHTML += `
-                                  <div 
-                                  class="card mb-2 p-2 border rounded" 
-                                  data-toggle="modal" 
-                                  data-target="#cardDetailModal" 
-                                  data-card-id="${data.id}"
-                                  onclick="displayCardDetails(${columnId},${data.id});" 
-                                  style="background-color:${data.color};">
-                                  ${data.title}
-                                  </div>
+                                    <div 
+                                    class="card mb-2 p-2 border rounded" 
+                                    draggable="true" 
+                                    data-toggle="modal" 
+                                    data-target="#cardDetailModal" 
+                                    data-card-id="${data.id}"
+                                    onclick="displayCardDetails(${columnId},${data.id});" 
+                                    style="background-color:${data.color};">
+                                    ${data.title}
+                                    </div>
                                 `;
     });
+    moveCard();
   } catch (error) {
     console.error(
       `Error fetching cards for columnId: ${columnId}. Error: ${error.message}`,
@@ -903,8 +1020,11 @@ async function displayCardDetails(columnId, cardId) {
     document.getElementById("cardDetailTitle").textContent = cardData.title;
     document.getElementById("cardDetailContent").textContent =
       cardData.description;
-    document.getElementById("cardDetailDueDate").textContent =
-      cardData.deadline;
+    // deadline에서 시간 부분 제거
+    const dateOnly = new Date(cardData.deadline).toISOString().split("T")[0];
+    document.getElementById("cardDetailDueDate").textContent = dateOnly;
+    document.getElementById("cardDetailPosition").textContent =
+      cardData.position; // 추가된 부분
 
     const cardDetailModal = document.getElementById("cardDetailModal");
     cardDetailModal.setAttribute("data-column-id", columnId); // 컬럼 ID 설정
@@ -948,7 +1068,6 @@ async function addComment() {
     );
 
     const result = await response.json();
-    console.log("댓글관련 result:", result);
     if (!response.ok) {
       throw new Error(result.message || "댓글을 추가하는데 실패했습니다.");
     }
@@ -994,13 +1113,12 @@ async function deleteComment(commentId, cardId) {
     await loadComments(cardId);
   } catch (err) {
     console.error(err);
-    alert("댓글을 삭제하는데 오류가 발생했습니다: " + err.message);
+    alert(err.message);
   }
 }
 
 // ⚪ 댓글 렌더링
 async function loadComments(cardId) {
-  console.log(cardId);
   try {
     const response = await fetch(
       `http://localhost:3000/card/${cardId}/comment`,
@@ -1027,6 +1145,7 @@ async function loadComments(cardId) {
     commentsArray.forEach((comment) => {
       commentsList.innerHTML += `
                                 <li class="list-group-item">
+                                <p>유저아이디 : ${comment.userId}</p>
                                   ${comment.comment}
                                  <button class="btn btn-sm btn-secondary float-right" onclick="deleteComment(${comment.id}, ${cardId})">삭제</button>
                                 </li>

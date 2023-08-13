@@ -3,9 +3,9 @@
 ![MAIN](https://ifh.cc/g/fMZKly.png)
 
 - 프로젝트 협업관리 사이트 <Trello> 벤치마킹 프로젝트
-- express, javascript 사용 아키텍쳐 패턴으로 서버구현
+- 서버 : nodejs, expressjs, 3-Layered 아키텍쳐 패턴
+- 프론트 : html, css, javscript, bootstrap
 - 서버실행 npm run dev
-- public : 프론트폴더
 
 <br>
 
@@ -31,6 +31,8 @@
 
    댓글 작성, 조회, 삭제 기능 : 각 카드 내에서 사용자는 생성된 카드에 댓글을 생성하고 관리할 수 있습니다.
 
+   카드 이동: 사용자는 카드를 한 컬럼에서 다른 컬럼으로 드래그 앤 드롭을 통해 이동할 수 있습니다.
+
 4. 편의 기능
 
    키보드 단축키 지원: ESC 키를 이용한 모달 창 닫기 등, 사용자의 편의를 위한 여러 키보드 단축키 기능을 제공합니다.
@@ -48,7 +50,7 @@
 - 지안 : 댓글 api , 로직 복습
 - 승원 : 컬럼 api , 컬럼 프론트 , 서버 추가기능
 - 형진 : 보드, 보드멤버 api , 소켓 추가기능
-- 성원 : 카드, 카드멤버 api , 프론트
+- 성원 : 카드, 카드멤버 api , 전체 프론트
 
 <br>
 
@@ -104,6 +106,7 @@
 3. 상세조회 (GET) = /column/:columnId/card/:cardId
 4. 삭제 (DELETE) = /column/:columnId/card/:cardId
 5. 수정 (PUT) = /column/:columnId/card/:cardId
+6. 이동 (PUT) = /column/:targetcolumnId/card/:cardId
 
 ### comment (댓글)
 

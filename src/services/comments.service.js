@@ -16,6 +16,7 @@ class CommentService {
         return {
           id: comment.id,
           comment: comment.comment,
+          userId: comment.userId,
         };
       });
     } catch (error) {
