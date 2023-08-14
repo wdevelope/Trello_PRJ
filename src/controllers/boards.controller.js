@@ -65,7 +65,7 @@ class BoardsController {
       console.log("cont", boardId);
 
       await boardsService.deleteBoard(boardId, userId);
-      res.json({ message: "보드 삭제 성공." });
+      res.status(200).json({ message: "보드 삭제 성공." });
     } catch (err) {
       console.log(err);
       res.status(500).json({ message: err.message });

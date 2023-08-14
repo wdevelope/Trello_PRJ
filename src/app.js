@@ -10,7 +10,6 @@ const router = require("./routes");
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static("public"));
 app.use("/", router);
 app.use(
   cors({

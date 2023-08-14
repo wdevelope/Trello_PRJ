@@ -10,6 +10,8 @@ router.post("/:boardId", auth, boardMemberController.createBoardMember);
 //보드 맴버 삭제
 router.delete("/:boardId", auth, boardMemberController.deleteBoardMember);
 //보드 맴버 조회
-router.get("/:boardId", auth, boardMemberController.getBoardMember);
+// router.get("/:boardId", auth, boardMemberController.getBoardMember);
+//초대 보드 조회
+router.get("/:userId", auth, boardMemberController.getBoardsOfUser);
 
 module.exports = router;

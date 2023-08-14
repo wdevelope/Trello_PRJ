@@ -7,7 +7,7 @@ const comment = require("./comment");
 const user = require("./user");
 
 // user 관계
-user.hasMany(board);
+user.hasMany(board, { onDelete: "CASCADE" });
 board.belongsTo(user);
 
 user.hasMany(comment);
@@ -20,19 +20,20 @@ user.hasMany(cardMember);
 cardMember.belongsTo(user);
 
 // board 관계
-board.hasMany(column);
+board.hasMany(column, { onDelete: "CASCADE" });
 column.belongsTo(board);
 
-board.hasMany(boardMember);
+board.hasMany(boardMember, { onDelete: "CASCADE" });
 boardMember.belongsTo(board);
 
 // column 관계
-column.hasMany(card);
+column.hasMany(card, { onDelete: "CASCADE" });
 card.belongsTo(column);
 
 // card 관계
-card.hasMany(comment);
+card.hasMany(comment, { onDelete: "CASCADE" });
 comment.belongsTo(card);
+
 card.hasMany(cardMember);
 cardMember.belongsTo(card);
 
