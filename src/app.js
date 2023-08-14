@@ -25,13 +25,17 @@ router.get("/", (req, res) => {
 });
 
 // db sync
-(async () => {
-  try {
-    await sequelize.sync();
-    app.listen(process.env.PORT, () => {
-      console.log(`${process.env.PORT} 서버가 켜졌습니다 👌👌`);
-    });
-  } catch (error) {
-    console.error("DB 연결 오류:", error);
-  }
-})();
+if (process.env.NODE_ENV !== "test") {
+  (async () => {
+    try {
+      await sequelize.sync();
+      app.listen(process.env.PORT, () => {
+        console.log(`${process.env.PORT} 서버가 켜졌습니다 👌👌`);
+      });
+    } catch (error) {
+      console.error("DB 연결 오류:", error);
+    }
+  })();
+}
+
+module.exports = app; // app 객체를 모듈로 export
