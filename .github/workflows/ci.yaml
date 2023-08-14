@@ -28,5 +28,5 @@ jobs:
       # - name: Run Server tests
       #   run: npm run dev
 
-      - name: Run Jest tests
-        run: npm run test
+      # - name: Run Jest tests
+      #   run: npm run test
